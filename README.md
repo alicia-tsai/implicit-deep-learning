@@ -176,7 +176,7 @@ Please contact `aliciatsai@berkeley.edu` and `laurent.eg@vinuni.edu.vn` if you w
 To contribute, please clone or fork the repo and later create a pull request to merge your addition into the main branch.
 
 ## Bibliography
-Repo written by Max Emerling, Juliette Decugis, Ashwin Ganesh.
+Source code contributors: Alicia Tsai, Max Emerling, Juliette Decugis, Ashwin Ganesh, Fangda Gu.
 
 If you use or extend our work on implicit models, please cite the following paper.
 
