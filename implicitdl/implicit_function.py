@@ -1,6 +1,10 @@
 import torch
 from torch.autograd import Function
 import numpy as np
+import warnings
+
+class ImplicitFunctionWarning(RuntimeWarning):
+    pass
 
 class ImplicitFunction(Function):
     mitr = grad_mitr = 300
@@ -12,7 +16,7 @@ class ImplicitFunction(Function):
             X, err, status = cls.inn_pred(A, B @ U, X0, cls.mitr, cls.tol)
         ctx.save_for_backward(A, B, X, U)
         if status not in "converged":
-            print(f"Picard iterations did not converge: err={err.item():.4e}, status={status}")
+            warnings.warn(f"Picard iterations did not converge: err={err.item():.4e}, status={status}", ImplicitFunctionWarning)
         return X
 
     @classmethod
@@ -25,7 +29,7 @@ class ImplicitFunction(Function):
         DPhi = cls.dphi(A @ X + B @ U)
         V, err, status = cls.inn_pred_grad(A.T, DPhi * grad_output, DPhi, cls.grad_mitr, cls.grad_tol)
         if status not in "converged":
-            print(f"Gradient iterations did not converge: err={err.item():.4e}, status={status}")
+            warnings.warn(f"Gradient iterations did not converge: err={err.item():.4e}, status={status}", ImplicitFunctionWarning)
         grad_A = V @ X.T
         grad_B = V @ U.T
         grad_U = B.T @ V

@@ -120,6 +120,14 @@ pred = model(xs)
 ### A Note on Convergence
 You may run into a warning like "Picard iterations did not converge: err=1.5259e-05, status=max itrs reached." For the most part, these warnings can be safely ignored if the err term is relatively small (i. e. less than around 1e-3). They are simply there to indicate that the fixed point was not found within the specified tolerance within the specified number of iterations. This can happen with "more difficult" inputs to the implicit model, especially those outside of the training distribution, where more iterations are required to find the fixed point.
 
+The following code demonstrates how to filter out these warnings:
+```
+import warnings
+from implicitdl import ImplicitFunctionWarning
+
+warnings.filterwarnings('ignore', category=ImplicitFunctionWarning)
+```
+
 As of now, all implicit functions use the Picard method to solve the forward pass and gradient pass implicit equations. The default convergence parameters are given at the top of implicit_function.py. ```mitr``` is the max allowed number of forward iterations, ```grad_mitr``` is the max allowed number of gradient iterations, ```tol``` is the forward solver tolerance, and ```grad_tol``` is the gradient solver tolerance. To override these defaults, subclass the implicit function you wish to use as follows:
 ```
 class CustomInf(ImplicitFunctionInf):
